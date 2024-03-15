@@ -19,6 +19,7 @@ package com.google.samples.apps.nowinandroid.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -135,6 +136,14 @@ fun NiaApp(appState: NiaAppState) {
                             currentDestination = appState.currentDestination,
                             modifier = Modifier.testTag("NiaBottomBar"),
                         )
+                    } else {
+                        Spacer(
+                            modifier = Modifier.windowInsetsPadding(
+                                WindowInsets.safeDrawing.only(
+                                    WindowInsetsSides.Bottom,
+                                ),
+                            ),
+                        )
                     }
                 },
             ) { padding ->
@@ -194,9 +203,6 @@ fun NiaApp(appState: NiaAppState) {
                             },
                         )
                     }
-
-                    // TODO: We may want to add padding or spacer when the snackbar is shown so that
-                    //  content doesn't display behind it.
                 }
             }
         }
