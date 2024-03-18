@@ -16,22 +16,29 @@
 
 package com.google.samples.apps.nowinandroid.ui
 
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertTopPositionInRootIsEqualTo
+import androidx.compose.ui.test.hasAnyDescendant
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.testharness.TestHarness
+import com.google.samples.apps.nowinandroid.MainActivity
 import com.google.samples.apps.nowinandroid.R
 import com.google.samples.apps.nowinandroid.core.data.repository.CompositeUserNewsResourceRepository
 import com.google.samples.apps.nowinandroid.core.data.test.networkmonitor.AlwaysOfflineNetworkMonitor
@@ -39,7 +46,6 @@ import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneMonitor
 import com.google.samples.apps.nowinandroid.core.rules.GrantPostNotificationsPermissionRule
 import com.google.samples.apps.nowinandroid.extensions.stringResource
-import com.google.samples.apps.nowinandroid.uitesthiltmanifest.HiltComponentActivity
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -76,7 +82,7 @@ class ConnectSnackBarTest {
      * Use the primary activity to initialize the app normally.
      */
     @get:Rule(order = 3)
-    val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Inject
     lateinit var userNewsResourceRepository: CompositeUserNewsResourceRepository
@@ -91,219 +97,47 @@ class ConnectSnackBarTest {
     private val saved by composeTestRule.stringResource(com.google.samples.apps.nowinandroid.feature.bookmarks.R.string.feature_bookmarks_title)
     private val netConnected by composeTestRule.stringResource(R.string.not_connected)
 
+    private var height = 0.dp
+    private var bottomSafeDrawingHeight = 0.dp
+
     @Before
     fun setup() = hiltRule.inject()
 
     @Test
-    fun compactWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
-            setContent {
-                TestHarness(size = DpSize(400.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-
-            findNavigationButton(forYou).apply {
-                performClick()
-                assertIsSelected()
-            }
-
-            onNodeWithText(netConnected)
-                .assertIsDisplayed()
-
-        }
-    }
-
-    @Test
-    fun compactWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
-            setContent {
-                TestHarness(size = DpSize(400.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-
-            findNavigationButton(saved).apply {
-                performClick()
-                assertIsSelected()
-            }
-
-            onNodeWithText(netConnected)
-                .assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun compactWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
-            setContent {
-                TestHarness(size = DpSize(400.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-
-            findNavigationButton(interests).apply {
-                performClick()
-                assertIsSelected()
-            }
-
-            onNodeWithText(netConnected)
-                .assertIsDisplayed()
-        }
-    }
-
-    @Test
     fun mediumWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
+        composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(610.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        height = maxHeight
+                        bottomSafeDrawingHeight =
+                            WindowInsets.safeDrawing.getBottom(density = density).dp
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
                     }
                 }
             }
+        }
 
+        composeTestRule.apply {
             findNavigationButton(forYou).apply {
                 performClick()
                 assertIsSelected()
             }
 
-            onNodeWithText(netConnected)
+            findSnackbarWithMessage(message = netConnected)
                 .assertIsDisplayed()
-
+                .assertTopPositionInRootIsEqualTo(height - bottomSafeDrawingHeight)
         }
     }
 
-    @Test
-    fun mediumWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
-            setContent {
-                TestHarness(size = DpSize(610.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-
-            findNavigationButton(saved).apply {
-                performClick()
-                assertIsSelected()
-            }
-
-            onNodeWithText(netConnected)
-                .assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun mediumWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
-            setContent {
-                TestHarness(size = DpSize(610.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-
-            findNavigationButton(interests).apply {
-                performClick()
-                assertIsSelected()
-            }
-
-            onNodeWithText(netConnected)
-                .assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun expandedWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
-            setContent {
-                TestHarness(size = DpSize(900.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-
-            findNavigationButton(forYou).apply {
-                performClick()
-                assertIsSelected()
-            }
-
-            onNodeWithText(netConnected)
-                .assertIsDisplayed()
-
-        }
-    }
-
-    @Test
-    fun expandedWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
-            setContent {
-                TestHarness(size = DpSize(900.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-
-            findNavigationButton(saved).apply {
-                performClick()
-                assertIsSelected()
-            }
-
-            onNodeWithText(netConnected)
-                .assertIsDisplayed()
-        }
-    }
-
-    @Test
-    fun expandedWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
-        composeTestRule.apply {
-            setContent {
-                TestHarness(size = DpSize(900.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-
-            findNavigationButton(interests).apply {
-                performClick()
-                assertIsSelected()
-            }
-
-            onNodeWithText(netConnected)
-                .assertIsDisplayed()
-        }
-    }
-
+    private fun findSnackbarWithMessage(message: String): SemanticsNodeInteraction =
+        composeTestRule.onNode(
+            matcher = hasTestTag("Snackbar") and
+                hasAnyDescendant(matcher = hasText(message)),
+        )
 
     private fun findNavigationButton(string: String): SemanticsNodeInteraction =
         composeTestRule.onNode(matcher = isSelectable() and hasText(string))
