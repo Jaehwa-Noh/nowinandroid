@@ -156,3 +156,4 @@ class ConnectSnackBarTest {
     )
 }
 
+annotation class RunPhoneSizeDevice
