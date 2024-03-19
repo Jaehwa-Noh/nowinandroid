@@ -18,12 +18,9 @@ package com.google.samples.apps.nowinandroid.ui
 
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
@@ -106,17 +103,13 @@ class ConnectSnackBarTest {
         EXPANDED(876.2.dp),
     }
 
-
+    @RunPhoneSizeDevice
     @Test
-    fun mediumWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
+    fun compactWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
-                TestHarness(size = DpSize(610.dp, 1000.dp)) {
+                TestHarness(size = DpSize(400.dp, 1000.dp)) {
                     BoxWithConstraints {
-                        val density = LocalDensity.current
-                        height = maxHeight
-                        bottomSafeDrawingHeight =
-                            WindowInsets.safeDrawing.getBottom(density = density).dp
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -133,7 +126,223 @@ class ConnectSnackBarTest {
 
             findSnackbarWithMessage(message = netConnected)
                 .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(height - bottomSafeDrawingHeight)
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.COMPACT.topPosition)
+        }
+    }
+
+    @RunPhoneSizeDevice
+    @Test
+    fun compactWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
+        composeTestRule.activity.apply {
+            setContent {
+                TestHarness(size = DpSize(400.dp, 1000.dp)) {
+                    BoxWithConstraints {
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+
+        composeTestRule.apply {
+            findNavigationButton(saved).apply {
+                performClick()
+                assertIsSelected()
+            }
+
+            findSnackbarWithMessage(message = netConnected)
+                .assertIsDisplayed()
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.COMPACT.topPosition)
+        }
+    }
+
+    @RunPhoneSizeDevice
+    @Test
+    fun compactWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
+        composeTestRule.activity.apply {
+            setContent {
+                TestHarness(size = DpSize(400.dp, 1000.dp)) {
+                    BoxWithConstraints {
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+
+        composeTestRule.apply {
+            findNavigationButton(interests).apply {
+                performClick()
+                assertIsSelected()
+            }
+
+            findSnackbarWithMessage(message = netConnected)
+                .assertIsDisplayed()
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.COMPACT.topPosition)
+        }
+    }
+
+    @RunPhoneSizeDevice
+    @Test
+    fun mediumWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
+        composeTestRule.activity.apply {
+            setContent {
+                TestHarness(size = DpSize(610.dp, 1000.dp)) {
+                    BoxWithConstraints {
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+
+        composeTestRule.apply {
+            findNavigationButton(forYou).apply {
+                performClick()
+                assertIsSelected()
+            }
+
+            findSnackbarWithMessage(message = netConnected)
+                .assertIsDisplayed()
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.MEDIUM.topPosition)
+        }
+    }
+
+    @RunPhoneSizeDevice
+    @Test
+    fun mediumWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
+        composeTestRule.activity.apply {
+            setContent {
+                TestHarness(size = DpSize(610.dp, 1000.dp)) {
+                    BoxWithConstraints {
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+
+        composeTestRule.apply {
+            findNavigationButton(saved).apply {
+                performClick()
+                assertIsSelected()
+            }
+
+            findSnackbarWithMessage(message = netConnected)
+                .assertIsDisplayed()
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.MEDIUM.topPosition)
+        }
+    }
+
+    @RunPhoneSizeDevice
+    @Test
+    fun mediumWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
+        composeTestRule.activity.apply {
+            setContent {
+                TestHarness(size = DpSize(610.dp, 1000.dp)) {
+                    BoxWithConstraints {
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+
+        composeTestRule.apply {
+            findNavigationButton(interests).apply {
+                performClick()
+                assertIsSelected()
+            }
+
+            findSnackbarWithMessage(message = netConnected)
+                .assertIsDisplayed()
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.MEDIUM.topPosition)
+        }
+    }
+
+    @RunPhoneSizeDevice
+    @Test
+    fun expandedWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
+        composeTestRule.activity.apply {
+            setContent {
+                TestHarness(size = DpSize(900.dp, 1000.dp)) {
+                    BoxWithConstraints {
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+
+        composeTestRule.apply {
+            findNavigationButton(forYou).apply {
+                performClick()
+                assertIsSelected()
+            }
+
+            findSnackbarWithMessage(message = netConnected)
+                .assertIsDisplayed()
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.EXPANDED.topPosition)
+        }
+    }
+
+    @RunPhoneSizeDevice
+    @Test
+    fun expandedWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
+        composeTestRule.activity.apply {
+            setContent {
+                TestHarness(size = DpSize(900.dp, 1000.dp)) {
+                    BoxWithConstraints {
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+
+        composeTestRule.apply {
+            findNavigationButton(saved).apply {
+                performClick()
+                assertIsSelected()
+            }
+
+            findSnackbarWithMessage(message = netConnected)
+                .assertIsDisplayed()
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.EXPANDED.topPosition)
+        }
+    }
+
+    @RunPhoneSizeDevice
+    @Test
+    fun expandedWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
+        composeTestRule.activity.apply {
+            setContent {
+                TestHarness(size = DpSize(900.dp, 1000.dp)) {
+                    BoxWithConstraints {
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+
+        composeTestRule.apply {
+            findNavigationButton(interests).apply {
+                performClick()
+                assertIsSelected()
+            }
+
+            findSnackbarWithMessage(message = netConnected)
+                .assertIsDisplayed()
+                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.EXPANDED.topPosition)
         }
     }
 
