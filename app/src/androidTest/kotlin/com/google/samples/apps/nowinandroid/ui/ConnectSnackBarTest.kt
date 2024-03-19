@@ -98,9 +98,9 @@ class ConnectSnackBarTest {
     fun setup() = hiltRule.inject()
 
     enum class SnackBarTopPosition(val topPosition: Dp) {
-        COMPACT(821.3.dp),
-        MEDIUM(892.7.dp),
-        EXPANDED(876.2.dp),
+        COMPACT(847.dp),
+        MEDIUM(929.dp),
+        EXPANDED(928.5.dp),
     }
 
     @RunPhoneSizeDevice
