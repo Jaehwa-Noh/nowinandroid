@@ -156,4 +156,8 @@ class ConnectSnackBarTest {
     )
 }
 
+/**
+ * This annotation class annotate
+ * the test code only work when run on Phone size device.
+ */
 annotation class RunPhoneSizeDevice
