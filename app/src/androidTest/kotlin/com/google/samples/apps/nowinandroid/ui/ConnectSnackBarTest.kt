@@ -97,9 +97,6 @@ class ConnectSnackBarTest {
     private val saved by composeTestRule.stringResource(com.google.samples.apps.nowinandroid.feature.bookmarks.R.string.feature_bookmarks_title)
     private val netConnected by composeTestRule.stringResource(R.string.not_connected)
 
-    private var height = 0.dp
-    private var bottomSafeDrawingHeight = 0.dp
-
     @Before
     fun setup() = hiltRule.inject()
 
