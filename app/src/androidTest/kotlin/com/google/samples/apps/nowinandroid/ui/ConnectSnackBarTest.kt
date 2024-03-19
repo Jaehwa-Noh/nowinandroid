@@ -163,11 +163,9 @@ class ConnectSnackBarTest {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(400.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
+                    NiaApp(
+                        appState = fakeAppState(400.dp, 1000.dp),
+                    )
                 }
             }
         }
@@ -243,12 +241,10 @@ class ConnectSnackBarTest {
     fun mediumWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
-                TestHarness(size = DpSize(610.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
+                BoxWithConstraints {
+                    NiaApp(
+                        appState = fakeAppState(maxWidth, maxHeight),
+                    )
                 }
             }
         }
@@ -325,13 +321,9 @@ class ConnectSnackBarTest {
     fun expandedWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
-                TestHarness(size = DpSize(900.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
+                NiaApp(
+                    appState = fakeAppState(900.dp, 1000.dp),
+                )
             }
         }
 
