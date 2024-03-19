@@ -254,7 +254,6 @@ class ConnectSnackBarTest {
         }
 
         composeTestRule.apply {
-            waitForIdle()
             findNavigationButton(interests).apply {
                 performClick()
                 assertIsSelected()
