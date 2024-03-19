@@ -22,6 +22,7 @@ import com.google.samples.apps.nowinandroid.core.data.repository.RecentSearchRep
 import com.google.samples.apps.nowinandroid.core.data.repository.SearchContentsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.TopicsRepository
 import com.google.samples.apps.nowinandroid.core.data.repository.UserDataRepository
+import com.google.samples.apps.nowinandroid.core.data.test.networkmonitor.AlwaysOnlineNetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.test.repository.FakeNewsRepository
 import com.google.samples.apps.nowinandroid.core.data.test.repository.FakeRecentSearchRepository
 import com.google.samples.apps.nowinandroid.core.data.test.repository.FakeSearchContentsRepository
