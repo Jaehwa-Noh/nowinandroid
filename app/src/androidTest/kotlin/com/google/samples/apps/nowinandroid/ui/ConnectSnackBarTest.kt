@@ -100,6 +100,13 @@ class ConnectSnackBarTest {
     @Before
     fun setup() = hiltRule.inject()
 
+    enum class SnackBarTopPosition(val topPosition: Dp) {
+        COMPACT(821.3.dp),
+        MEDIUM(892.7.dp),
+        EXPANDED(876.2.dp),
+    }
+
+
     @Test
     fun mediumWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
