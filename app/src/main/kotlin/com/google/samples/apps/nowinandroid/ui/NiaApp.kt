@@ -126,12 +126,10 @@ fun NiaApp(appState: NiaAppState) {
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onBackground,
                 contentWindowInsets = WindowInsets(0, 0, 0, 0),
-                snackbarHost = {
-                    SnackbarHost(
-                        hostState = snackbarHostState,
-                        modifier = Modifier.testTag("Snackbar"),
-                    )
-                },
+                snackbarHost = { SnackbarHost(
+                    hostState = snackbarHostState,
+                    modifier = Modifier.testTag("Snackbar")
+                ) },
                 bottomBar = {
                     if (appState.shouldShowBottomBar) {
                         NiaBottomBar(
