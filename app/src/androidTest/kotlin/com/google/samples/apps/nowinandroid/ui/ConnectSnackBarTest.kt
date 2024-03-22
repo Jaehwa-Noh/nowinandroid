@@ -18,18 +18,22 @@ package com.google.samples.apps.nowinandroid.ui
 
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assertHeightIsEqualTo
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
-import androidx.compose.ui.test.assertTopPositionInRootIsEqualTo
 import androidx.compose.ui.test.hasAnyDescendant
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
@@ -93,23 +97,23 @@ class ConnectSnackBarTest {
     private val interests by composeTestRule.stringResource(com.google.samples.apps.nowinandroid.feature.interests.R.string.feature_interests_title)
     private val saved by composeTestRule.stringResource(com.google.samples.apps.nowinandroid.feature.bookmarks.R.string.feature_bookmarks_title)
     private val netConnected by composeTestRule.stringResource(R.string.not_connected)
+    private val bottomPaddingTestTag = "Bottom padding for snackbar"
+    private var bottomSafeDrawingHeight: Dp = 0.dp
 
     @Before
     fun setup() = hiltRule.inject()
 
-    enum class SnackBarTopPosition(val topPosition: Dp) {
-        COMPACT(821.3.dp),
-        MEDIUM(892.7.dp),
-        EXPANDED(876.2.dp),
-    }
-
-    @RunPhoneSizeDevice
     @Test
     fun compactWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(400.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -124,19 +128,23 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.COMPACT.topPosition)
+            onNodeWithTag(bottomPaddingTestTag).assertDoesNotExist()
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
         }
     }
 
-    @RunPhoneSizeDevice
     @Test
     fun compactWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(400.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -151,19 +159,23 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.COMPACT.topPosition)
+            onNodeWithTag(bottomPaddingTestTag).assertDoesNotExist()
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
         }
     }
 
-    @RunPhoneSizeDevice
     @Test
     fun compactWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(400.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -178,19 +190,23 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.COMPACT.topPosition)
+            onNodeWithTag(bottomPaddingTestTag).assertDoesNotExist()
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
         }
     }
 
-    @RunPhoneSizeDevice
     @Test
     fun mediumWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(610.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -205,19 +221,25 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.MEDIUM.topPosition)
+            onNodeWithTag(bottomPaddingTestTag)
+                .assertExists()
+                .assertHeightIsEqualTo(bottomSafeDrawingHeight)
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
         }
     }
 
-    @RunPhoneSizeDevice
     @Test
     fun mediumWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(610.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -232,19 +254,25 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.MEDIUM.topPosition)
+            onNodeWithTag(bottomPaddingTestTag)
+                .assertExists()
+                .assertHeightIsEqualTo(bottomSafeDrawingHeight)
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
         }
     }
 
-    @RunPhoneSizeDevice
     @Test
     fun mediumWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(610.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -259,19 +287,25 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.MEDIUM.topPosition)
+            onNodeWithTag(bottomPaddingTestTag)
+                .assertExists()
+                .assertHeightIsEqualTo(bottomSafeDrawingHeight)
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
         }
     }
 
-    @RunPhoneSizeDevice
     @Test
     fun expandedWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(900.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -286,19 +320,25 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.EXPANDED.topPosition)
+            onNodeWithTag(bottomPaddingTestTag)
+                .assertExists()
+                .assertHeightIsEqualTo(bottomSafeDrawingHeight)
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
         }
     }
 
-    @RunPhoneSizeDevice
     @Test
     fun expandedWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(900.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -313,19 +353,25 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.EXPANDED.topPosition)
+            onNodeWithTag(bottomPaddingTestTag)
+                .assertExists()
+                .assertHeightIsEqualTo(bottomSafeDrawingHeight)
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
         }
     }
 
-    @RunPhoneSizeDevice
     @Test
     fun expandedWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
         composeTestRule.activity.apply {
             setContent {
                 TestHarness(size = DpSize(900.dp, 1000.dp)) {
                     BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
                         NiaApp(
                             appState = fakeAppState(maxWidth, maxHeight),
                         )
@@ -340,9 +386,12 @@ class ConnectSnackBarTest {
                 assertIsSelected()
             }
 
-            findSnackbarWithMessage(message = netConnected)
-                .assertIsDisplayed()
-                .assertTopPositionInRootIsEqualTo(SnackBarTopPosition.EXPANDED.topPosition)
+            onNodeWithTag(bottomPaddingTestTag)
+                .assertExists()
+                .assertHeightIsEqualTo(bottomSafeDrawingHeight)
+
+            findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
+
         }
     }
 
@@ -364,9 +413,3 @@ class ConnectSnackBarTest {
         timeZoneMonitor = timeZoneMonitor,
     )
 }
-
-/**
- * This annotation class annotate
- * the test code only work when run on Phone size device.
- */
-annotation class RunPhoneSizeDevice
