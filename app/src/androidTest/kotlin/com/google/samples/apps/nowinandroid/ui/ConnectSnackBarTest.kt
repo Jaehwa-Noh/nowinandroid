@@ -391,7 +391,6 @@ class ConnectSnackBarTest {
                 .assertHeightIsEqualTo(bottomSafeDrawingHeight)
 
             findSnackbarWithMessage(message = netConnected).assertIsDisplayed()
-
         }
     }
 
