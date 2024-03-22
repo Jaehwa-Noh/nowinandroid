@@ -152,11 +152,11 @@ fun NiaApp(appState: NiaAppState) {
                         )
                     } else {
                         Spacer(
-                            modifier = Modifier.windowInsetsPadding(
-                                WindowInsets.safeDrawing.only(
-                                    WindowInsetsSides.Bottom,
-                                ),
-                            ),
+                            modifier = Modifier
+                                .height(bottomNavigationHeight)
+                                .semantics {
+                                    testTag = "Bottom padding for snackbar"
+                                },
                         )
                     }
                 },
