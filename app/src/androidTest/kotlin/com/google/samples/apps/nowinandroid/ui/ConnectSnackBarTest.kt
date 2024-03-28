@@ -46,7 +46,7 @@ import com.google.samples.apps.nowinandroid.core.data.test.networkmonitor.Always
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneMonitor
 import com.google.samples.apps.nowinandroid.core.rules.GrantPostNotificationsPermissionRule
-import com.google.samples.apps.nowinandroid.extensions.stringResource
+import com.google.samples.apps.nowinandroid.extensions.getStringById
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -93,10 +93,10 @@ class ConnectSnackBarTest {
 
     private val networkMonitor: NetworkMonitor = AlwaysOfflineNetworkMonitor()
 
-    private val forYou by composeTestRule.stringResource(com.google.samples.apps.nowinandroid.feature.foryou.R.string.feature_foryou_title)
-    private val interests by composeTestRule.stringResource(com.google.samples.apps.nowinandroid.feature.interests.R.string.feature_interests_title)
-    private val saved by composeTestRule.stringResource(com.google.samples.apps.nowinandroid.feature.bookmarks.R.string.feature_bookmarks_title)
-    private val netConnected by composeTestRule.stringResource(R.string.not_connected)
+    private val forYou by composeTestRule.getStringById(com.google.samples.apps.nowinandroid.feature.foryou.R.string.feature_foryou_title)
+    private val interests by composeTestRule.getStringById(com.google.samples.apps.nowinandroid.feature.interests.R.string.feature_interests_title)
+    private val saved by composeTestRule.getStringById(com.google.samples.apps.nowinandroid.feature.bookmarks.R.string.feature_bookmarks_title)
+    private val netConnected by composeTestRule.getStringById(R.string.not_connected)
     private val bottomPaddingTestTag = "Bottom padding for snackbar"
     private var bottomSafeDrawingHeight: Dp = 0.dp
 

@@ -36,7 +36,7 @@ import com.google.samples.apps.nowinandroid.R
 import com.google.samples.apps.nowinandroid.core.data.repository.TopicsRepository
 import com.google.samples.apps.nowinandroid.core.model.data.Topic
 import com.google.samples.apps.nowinandroid.core.rules.GrantPostNotificationsPermissionRule
-import com.google.samples.apps.nowinandroid.extensions.stringResource
+import com.google.samples.apps.nowinandroid.extensions.getStringById
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -88,15 +88,15 @@ class NavigationTest {
     lateinit var topicsRepository: TopicsRepository
 
     // The strings used for matching in these tests
-    private val navigateUp by composeTestRule.stringResource(FeatureForyouR.string.feature_foryou_navigate_up)
-    private val forYou by composeTestRule.stringResource(FeatureForyouR.string.feature_foryou_title)
-    private val interests by composeTestRule.stringResource(FeatureSearchR.string.feature_search_interests)
+    private val navigateUp by composeTestRule.getStringById(FeatureForyouR.string.feature_foryou_navigate_up)
+    private val forYou by composeTestRule.getStringById(FeatureForyouR.string.feature_foryou_title)
+    private val interests by composeTestRule.getStringById(FeatureSearchR.string.feature_search_interests)
     private val sampleTopic = "Headlines"
-    private val appName by composeTestRule.stringResource(R.string.app_name)
-    private val saved by composeTestRule.stringResource(BookmarksR.string.feature_bookmarks_title)
-    private val settings by composeTestRule.stringResource(SettingsR.string.feature_settings_top_app_bar_action_icon_description)
-    private val brand by composeTestRule.stringResource(SettingsR.string.feature_settings_brand_android)
-    private val ok by composeTestRule.stringResource(SettingsR.string.feature_settings_dismiss_dialog_button_text)
+    private val appName by composeTestRule.getStringById(R.string.app_name)
+    private val saved by composeTestRule.getStringById(BookmarksR.string.feature_bookmarks_title)
+    private val settings by composeTestRule.getStringById(SettingsR.string.feature_settings_top_app_bar_action_icon_description)
+    private val brand by composeTestRule.getStringById(SettingsR.string.feature_settings_brand_android)
+    private val ok by composeTestRule.getStringById(SettingsR.string.feature_settings_dismiss_dialog_button_text)
 
     @Before
     fun setup() = hiltRule.inject()
