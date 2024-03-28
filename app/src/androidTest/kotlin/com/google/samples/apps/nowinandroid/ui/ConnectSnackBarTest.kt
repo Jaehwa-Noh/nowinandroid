@@ -42,10 +42,10 @@ import com.google.accompanist.testharness.TestHarness
 import com.google.samples.apps.nowinandroid.MainActivity
 import com.google.samples.apps.nowinandroid.R
 import com.google.samples.apps.nowinandroid.core.data.repository.CompositeUserNewsResourceRepository
-import com.google.samples.apps.nowinandroid.core.data.test.networkmonitor.AlwaysOfflineNetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.NetworkMonitor
 import com.google.samples.apps.nowinandroid.core.data.util.TimeZoneMonitor
 import com.google.samples.apps.nowinandroid.core.rules.GrantPostNotificationsPermissionRule
+import com.google.samples.apps.nowinandroid.core.testing.util.TestNetworkMonitor
 import com.google.samples.apps.nowinandroid.extensions.getStringById
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -91,7 +91,7 @@ class ConnectSnackBarTest {
     @Inject
     lateinit var timeZoneMonitor: TimeZoneMonitor
 
-    private val networkMonitor: NetworkMonitor = AlwaysOfflineNetworkMonitor()
+    private val networkMonitor: NetworkMonitor = TestNetworkMonitor().apply { setConnected(false) }
 
     private val forYou by composeTestRule.getStringById(com.google.samples.apps.nowinandroid.feature.foryou.R.string.feature_foryou_title)
     private val interests by composeTestRule.getStringById(com.google.samples.apps.nowinandroid.feature.interests.R.string.feature_interests_title)
