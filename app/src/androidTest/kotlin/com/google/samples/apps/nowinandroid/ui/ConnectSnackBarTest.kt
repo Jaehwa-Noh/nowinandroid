@@ -56,6 +56,10 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import javax.inject.Inject
 
+/**
+ * Tests that Snackbar would showing above System UI
+ * on different screen size by checking Spacer height.
+ */
 @HiltAndroidTest
 class ConnectSnackBarTest {
 
