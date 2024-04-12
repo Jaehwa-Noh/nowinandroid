@@ -18,10 +18,12 @@ package com.google.samples.apps.nowinandroid.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -82,12 +84,6 @@ fun NiaApp(appState: NiaAppState) {
     val shouldShowGradientBackground =
         appState.currentTopLevelDestination == TopLevelDestination.FOR_YOU
     var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
-    val density = LocalDensity.current
-    val bottomNavigationHeight = density.run {
-        WindowInsets.safeDrawing
-            .getBottom(density = density)
-            .toDp()
-    }
 
     NiaBackground {
         NiaGradientBackground(
@@ -133,6 +129,13 @@ internal fun NiaApp(
     onTopAppBarActionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val density = LocalDensity.current
+    val bottomNavigationHeight = density.run {
+        WindowInsets.safeDrawing
+            .getBottom(density = density)
+            .toDp()
+    }
+
     val unreadDestinations by appState.topLevelDestinationsWithUnreadResources
         .collectAsStateWithLifecycle()
 
@@ -148,7 +151,12 @@ internal fun NiaApp(
         containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.testTag("Snackbar"),
+            )
+        },
         bottomBar = {
             if (appState.shouldShowBottomBar) {
                 NiaBottomBar(
@@ -157,6 +165,14 @@ internal fun NiaApp(
                     onNavigateToDestination = appState::navigateToTopLevelDestination,
                     currentDestination = appState.currentDestination,
                     modifier = Modifier.testTag("NiaBottomBar"),
+                )
+            } else {
+                Spacer(
+                    modifier = Modifier
+                        .height(bottomNavigationHeight)
+                        .semantics {
+                            testTag = "Bottom padding for snackbar"
+                        },
                 )
             }
         },
@@ -217,9 +233,6 @@ internal fun NiaApp(
                     },
                 )
             }
-
-            // TODO: We may want to add padding or spacer when the snackbar is shown so that
-            //  content doesn't display behind it.
         }
     }
 }
