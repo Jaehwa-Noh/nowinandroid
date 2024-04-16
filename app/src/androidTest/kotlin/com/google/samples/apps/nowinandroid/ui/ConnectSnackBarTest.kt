@@ -24,6 +24,8 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.test.DeviceConfigurationOverride
+import androidx.compose.ui.test.ForcedSize
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.assertHeightIsEqualTo
 import androidx.compose.ui.test.assertIsDisplayed
@@ -38,7 +40,6 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.testharness.TestHarness
 import com.google.samples.apps.nowinandroid.MainActivity
 import com.google.samples.apps.nowinandroid.R
 import com.google.samples.apps.nowinandroid.core.data.repository.CompositeUserNewsResourceRepository
@@ -109,22 +110,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun compactWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(400.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            400.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(forYou).apply {
@@ -140,22 +129,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun compactWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(400.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            400.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(saved).apply {
@@ -171,22 +148,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun compactWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(400.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            400.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(interests).apply {
@@ -202,22 +167,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun mediumWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(610.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            610.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(forYou).apply {
@@ -235,22 +188,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun mediumWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(610.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            610.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(saved).apply {
@@ -268,22 +209,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun mediumWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(610.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            610.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(interests).apply {
@@ -301,22 +230,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun expandedWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(900.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            900.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(forYou).apply {
@@ -334,22 +251,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun expandedWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(900.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            900.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(saved).apply {
@@ -367,22 +272,10 @@ class ConnectSnackBarTest {
 
     @Test
     fun expandedWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
-        composeTestRule.activity.apply {
-            setContent {
-                TestHarness(size = DpSize(900.dp, 1000.dp)) {
-                    BoxWithConstraints {
-                        val density = LocalDensity.current
-                        bottomSafeDrawingHeight =
-                            density.run {
-                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
-                            }
-                        NiaApp(
-                            appState = fakeAppState(maxWidth, maxHeight),
-                        )
-                    }
-                }
-            }
-        }
+        snackbarScreenWithSize(
+            900.dp,
+            1000.dp,
+        )
 
         composeTestRule.apply {
             findNavigationButton(interests).apply {
