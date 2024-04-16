@@ -415,4 +415,28 @@ class ConnectSnackBarTest {
         userNewsResourceRepository = userNewsResourceRepository,
         timeZoneMonitor = timeZoneMonitor,
     )
+
+    private fun snackbarScreenWithSize(
+        width: Dp,
+        height: Dp,
+    ) {
+        composeTestRule.activity.apply {
+            setContent {
+                DeviceConfigurationOverride(
+                    DeviceConfigurationOverride.ForcedSize(DpSize(width, height)),
+                ) {
+                    BoxWithConstraints {
+                        val density = LocalDensity.current
+                        bottomSafeDrawingHeight =
+                            density.run {
+                                WindowInsets.safeDrawing.getBottom(density = density).toDp()
+                            }
+                        NiaApp(
+                            appState = fakeAppState(maxWidth, maxHeight),
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
