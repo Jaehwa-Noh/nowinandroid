@@ -109,7 +109,7 @@ class ConnectSnackBarTest {
     fun setup() = hiltRule.inject()
 
     @Test
-    fun compactWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
+    fun compactWidth_notConnectedAndForYou_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             400.dp,
             1000.dp,
@@ -128,7 +128,7 @@ class ConnectSnackBarTest {
     }
 
     @Test
-    fun compactWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
+    fun compactWidth_notConnectedAndSaved_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             400.dp,
             1000.dp,
@@ -147,7 +147,7 @@ class ConnectSnackBarTest {
     }
 
     @Test
-    fun compactWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
+    fun compactWidth_notConnectedAndInterests_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             400.dp,
             1000.dp,
@@ -166,7 +166,7 @@ class ConnectSnackBarTest {
     }
 
     @Test
-    fun mediumWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
+    fun mediumWidth_notConnectedAndForYou_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             610.dp,
             1000.dp,
@@ -187,7 +187,7 @@ class ConnectSnackBarTest {
     }
 
     @Test
-    fun mediumWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
+    fun mediumWidth_notConnectedAndSaved_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             610.dp,
             1000.dp,
@@ -208,7 +208,7 @@ class ConnectSnackBarTest {
     }
 
     @Test
-    fun mediumWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
+    fun mediumWidth_notConnectedAndInterests_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             610.dp,
             1000.dp,
@@ -229,7 +229,7 @@ class ConnectSnackBarTest {
     }
 
     @Test
-    fun expandedWidth_WhenNotConnectedAndForYou_ConnectSnackBarShowUp() {
+    fun expandedWidth_notConnectedAndForYou_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             900.dp,
             1000.dp,
@@ -250,7 +250,7 @@ class ConnectSnackBarTest {
     }
 
     @Test
-    fun expandedWidth_WhenNotConnectedAndSaved_ConnectSnackBarShowUp() {
+    fun expandedWidth_notConnectedAndSaved_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             900.dp,
             1000.dp,
@@ -271,7 +271,7 @@ class ConnectSnackBarTest {
     }
 
     @Test
-    fun expandedWidth_WhenNotConnectedAndInterests_ConnectSnackBarShowUp() {
+    fun expandedWidth_notConnectedAndInterests_connectSnackBarShowUp() {
         snackbarScreenWithSize(
             900.dp,
             1000.dp,
