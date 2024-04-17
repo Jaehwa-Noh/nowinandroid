@@ -122,6 +122,7 @@ fun NiaApp(appState: NiaAppState, modifier: Modifier = Modifier) {
                 showSettingsDialog = showSettingsDialog,
                 onSettingsDismissed = { showSettingsDialog = false },
                 onTopAppBarActionClick = { showSettingsDialog = true },
+                bottomNavigationHeight = bottomNavigationHeight,
             )
         }
     }
@@ -135,6 +136,7 @@ internal fun NiaApp(
     showSettingsDialog: Boolean,
     onSettingsDismissed: () -> Unit,
     onTopAppBarActionClick: () -> Unit,
+    bottomNavigationHeight: Dp,
     modifier: Modifier = Modifier,
 ) {
 
