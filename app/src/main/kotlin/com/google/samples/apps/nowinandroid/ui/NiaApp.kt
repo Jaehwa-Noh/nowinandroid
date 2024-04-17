@@ -59,6 +59,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
@@ -84,6 +85,13 @@ fun NiaApp(appState: NiaAppState, modifier: Modifier = Modifier) {
     val shouldShowGradientBackground =
         appState.currentTopLevelDestination == TopLevelDestination.FOR_YOU
     var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
+
+    val density = LocalDensity.current
+    val bottomNavigationHeight = density.run {
+        WindowInsets.safeDrawing
+            .getBottom(density = density)
+            .toDp()
+    }
 
     NiaBackground(modifier = modifier) {
         NiaGradientBackground(
@@ -129,12 +137,6 @@ internal fun NiaApp(
     onTopAppBarActionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val density = LocalDensity.current
-    val bottomNavigationHeight = density.run {
-        WindowInsets.safeDrawing
-            .getBottom(density = density)
-            .toDp()
-    }
 
     val unreadDestinations by appState.topLevelDestinationsWithUnreadResources
         .collectAsStateWithLifecycle()
