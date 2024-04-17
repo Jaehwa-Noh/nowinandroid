@@ -229,7 +229,7 @@ class SnackbarScreenshotTests {
                             showSettingsDialog = false,
                             onSettingsDismissed = {},
                             onTopAppBarActionClick = {},
-                            bottomNavigationHeight = fakeBottomSystemUiHeight,
+                            bottomSystemUiHeight = fakeBottomSystemUiHeight,
                         )
                     }
                 }

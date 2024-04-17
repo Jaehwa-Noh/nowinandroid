@@ -87,7 +87,7 @@ fun NiaApp(appState: NiaAppState, modifier: Modifier = Modifier) {
     var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
 
     val density = LocalDensity.current
-    val bottomNavigationHeight = density.run {
+    val bottomSystemUiHeight = density.run {
         WindowInsets.safeDrawing
             .getBottom(density = density)
             .toDp()
@@ -122,7 +122,7 @@ fun NiaApp(appState: NiaAppState, modifier: Modifier = Modifier) {
                 showSettingsDialog = showSettingsDialog,
                 onSettingsDismissed = { showSettingsDialog = false },
                 onTopAppBarActionClick = { showSettingsDialog = true },
-                bottomNavigationHeight = bottomNavigationHeight,
+                bottomSystemUiHeight = bottomSystemUiHeight,
             )
         }
     }
@@ -136,7 +136,7 @@ internal fun NiaApp(
     showSettingsDialog: Boolean,
     onSettingsDismissed: () -> Unit,
     onTopAppBarActionClick: () -> Unit,
-    bottomNavigationHeight: Dp,
+    bottomSystemUiHeight: Dp,
     modifier: Modifier = Modifier,
 ) {
     val unreadDestinations by appState.topLevelDestinationsWithUnreadResources
@@ -172,7 +172,7 @@ internal fun NiaApp(
             } else {
                 Spacer(
                     modifier = Modifier
-                        .height(bottomNavigationHeight)
+                        .height(bottomSystemUiHeight)
                         .semantics {
                             testTag = "Bottom padding for snackbar"
                         },
