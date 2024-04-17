@@ -206,7 +206,7 @@ class SnackbarScreenshotTests {
         action: suspend () -> Unit,
     ) {
         lateinit var scope: CoroutineScope
-        val fakeBottomSystemUiHeight = 20.dp
+        val fakeBottomSystemUiHeight = 80.dp
         composeTestRule.setContent {
             scope = rememberCoroutineScope()
 
