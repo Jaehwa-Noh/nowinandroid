@@ -139,7 +139,6 @@ internal fun NiaApp(
     bottomNavigationHeight: Dp,
     modifier: Modifier = Modifier,
 ) {
-
     val unreadDestinations by appState.topLevelDestinationsWithUnreadResources
         .collectAsStateWithLifecycle()
 
