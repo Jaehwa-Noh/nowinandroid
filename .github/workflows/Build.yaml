@@ -194,6 +194,7 @@ jobs:
         with:
           api-level: 21
           profile: Pixel 2
+          arch: x86_64
           script: ./gradlew connectedDemoDebugAndroidTest --daemon
         
       # - name: Build projects and run instrumentation tests
