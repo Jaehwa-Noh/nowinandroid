@@ -153,7 +153,7 @@ jobs:
     timeout-minutes: 55
     strategy:
       matrix:
-        api-level: [21]
+        api-level: [22, 23, 24, 25]
 
     steps:
       - name: Delete unnecessary tools 🔧
@@ -190,9 +190,10 @@ jobs:
         uses: gradle/gradle-build-action@v3
 
       - name: Build projects and run instrumentation tests API 21
+        if: always()
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 21
+          api-level: ${{ matrix.api-level }}
           profile: Nexus 6
           disk-size: 6000M
           heap-size: 600M
