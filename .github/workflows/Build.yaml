@@ -193,6 +193,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 21
+          profile: Pixel 2
           script: ./gradlew connectedDemoDebugAndroidTest --daemon
         
       # - name: Build projects and run instrumentation tests
