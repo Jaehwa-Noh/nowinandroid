@@ -194,6 +194,8 @@ jobs:
         with:
           api-level: 21
           profile: Nexus 6
+          disk-size: 6000M
+          heap-size: 600M
           arch: x86_64
           script: ./gradlew connectedDemoDebugAndroidTest --daemon
         
