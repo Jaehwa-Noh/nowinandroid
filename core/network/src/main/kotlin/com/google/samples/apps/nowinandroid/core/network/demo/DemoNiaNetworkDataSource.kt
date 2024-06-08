@@ -48,6 +48,8 @@ class DemoNiaNetworkDataSource @Inject constructor(
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getTopics(ids: List<String>?): List<NetworkTopic> =
         withContext(ioDispatcher) {
+//            Use decodeFromString to capability with API 24 below.
+//            https://github.com/Kotlin/kotlinx.serialization/issues/2457#issuecomment-1786923342
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 assets.open(TOPICS_ASSET).use(networkJson::decodeFromStream)
             } else {
