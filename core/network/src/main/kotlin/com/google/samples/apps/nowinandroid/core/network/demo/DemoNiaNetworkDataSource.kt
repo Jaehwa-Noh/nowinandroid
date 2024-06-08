@@ -44,7 +44,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getTopics(ids: List<String>?): List<NetworkTopic> =
         withContext(ioDispatcher) {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 assets.open(TOPICS_ASSET).use(networkJson::decodeFromStream)
             } else {
                 networkJson.decodeFromString(assets.open(TOPICS_ASSET).toString())
@@ -54,7 +54,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getNewsResources(ids: List<String>?): List<NetworkNewsResource> =
         withContext(ioDispatcher) {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 assets.open(NEWS_ASSET).use(networkJson::decodeFromStream)
             } else {
                 networkJson.decodeFromString(assets.open(TOPICS_ASSET).toString())
