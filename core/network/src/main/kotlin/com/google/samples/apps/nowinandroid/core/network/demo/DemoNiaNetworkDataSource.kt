@@ -84,8 +84,9 @@ class DemoNiaNetworkDataSource @Inject constructor(
         val result = ByteArrayOutputStream()
         val buffer = ByteArray(1024)
         var length = 0
-        while (length != -1) {
+        while (true) {
             length = inputStream.read(buffer)
+            if (length == -1) break
             result.write(buffer, 0, length)
         }
 
