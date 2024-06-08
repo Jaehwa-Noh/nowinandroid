@@ -30,6 +30,9 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import okio.use
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 /**
@@ -47,7 +50,8 @@ class DemoNiaNetworkDataSource @Inject constructor(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 assets.open(TOPICS_ASSET).use(networkJson::decodeFromStream)
             } else {
-                networkJson.decodeFromString(assets.open(TOPICS_ASSET).toString())
+                val topicsJsonString = convertStreamToString(assets.open(TOPICS_ASSET))
+                networkJson.decodeFromString(topicsJsonString)
             }
         }
 
@@ -57,7 +61,8 @@ class DemoNiaNetworkDataSource @Inject constructor(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 assets.open(NEWS_ASSET).use(networkJson::decodeFromStream)
             } else {
-                networkJson.decodeFromString(assets.open(TOPICS_ASSET).toString())
+                val newsJsonString = convertStreamToString(assets.open(NEWS_ASSET))
+                networkJson.decodeFromString(newsJsonString)
             }
         }
 
