@@ -71,6 +71,18 @@ class DemoNiaNetworkDataSource @Inject constructor(
         private const val NEWS_ASSET = "news.json"
         private const val TOPICS_ASSET = "topics.json"
     }
+
+    private fun convertStreamToString(inputStream: InputStream): String {
+        val result = ByteArrayOutputStream()
+        val buffer = ByteArray(1024)
+        var length = 0
+        while (length != -1) {
+            length = inputStream.read(buffer)
+            result.write(buffer, 0, length)
+        }
+
+        return StandardCharsets.UTF_8.name()
+    }
 }
 
 /**
