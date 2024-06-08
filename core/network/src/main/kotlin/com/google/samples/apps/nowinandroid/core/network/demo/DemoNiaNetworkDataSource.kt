@@ -34,6 +34,7 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 /**
  * [NiaNetworkDataSource] implementation that provides static news resources to aid development
@@ -77,7 +78,9 @@ class DemoNiaNetworkDataSource @Inject constructor(
         private const val TOPICS_ASSET = "topics.json"
     }
 
-    private fun convertStreamToString(inputStream: InputStream): String {
+    private suspend fun convertStreamToString(inputStream: InputStream): String = withContext(
+        coroutineContext,
+    ) {
         val result = ByteArrayOutputStream()
         val buffer = ByteArray(1024)
         var length = 0
@@ -86,7 +89,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
             result.write(buffer, 0, length)
         }
 
-        return StandardCharsets.UTF_8.name()
+        return@withContext StandardCharsets.UTF_8.name()
     }
 }
 
