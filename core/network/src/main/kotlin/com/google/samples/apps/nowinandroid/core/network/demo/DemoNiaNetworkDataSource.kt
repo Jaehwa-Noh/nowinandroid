@@ -92,7 +92,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
             result.write(buffer, 0, length)
         }
 
-        return@withContext StandardCharsets.UTF_8.name()
+        return@withContext result.toString(StandardCharsets.UTF_8.name())
     }
 }
 
