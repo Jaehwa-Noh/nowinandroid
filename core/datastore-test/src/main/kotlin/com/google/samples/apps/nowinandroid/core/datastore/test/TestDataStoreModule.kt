@@ -28,6 +28,7 @@ import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.CoroutineScope
 import org.junit.rules.TemporaryFolder
+import java.io.File
 import javax.inject.Singleton
 
 @Module
@@ -57,5 +58,9 @@ fun TemporaryFolder.testUserPreferencesDataStore(
     serializer = userPreferencesSerializer,
     scope = coroutineScope,
 ) {
-    newFile("user_preferences_test.pb")
+    // Add a parentFolder for the Windows users.
+    // If create just on a File on the temporaryFolder, rename error was occurred.
+    // See https://github.com/android/nowinandroid/issues/1242
+    val parentFolder = newFolder("datastore")
+    File(parentFolder, "user_preferences_test.pb")
 }
