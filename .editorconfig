@@ -15,3 +15,4 @@ ktlint_standard_condition-wrapping = disabled
 ktlint_standard_function-expression-body = disabled
 ktlint_standard_function-type-modifier-spacing = disabled
 ktlint_standard_multiline-loop = disabled
+ktlint_function_signature_body_expression_wrapping=multiline
