@@ -146,7 +146,7 @@ internal fun NiaApp(
             onDismiss = { onSettingsDismissed() },
         )
     }
-
+    // add screen shot
     NiaNavigationSuiteScaffold(
         navigationSuiteItems = {
             appState.topLevelDestinations.forEach { destination ->
