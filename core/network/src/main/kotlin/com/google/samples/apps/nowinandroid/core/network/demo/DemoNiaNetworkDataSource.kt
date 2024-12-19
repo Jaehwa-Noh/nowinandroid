@@ -29,9 +29,11 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import java.io.File
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import java.nio.charset.StandardCharsets
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 /**
  * [NiaNetworkDataSource] implementation that provides static news resources to aid development
@@ -50,7 +52,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
             } else {
                 // Use decodeFromString to capability with API 24 below.
                 // https://github.com/Kotlin/kotlinx.serialization/issues/2457#issuecomment-1786923342
-                val topicsJsonString = File(TOPICS_ASSET).readText(StandardCharsets.UTF_8)
+                val topicsJsonString = convertStreamToString(assets.open(TOPICS_ASSET))
                 networkJson.decodeFromString(topicsJsonString)
             }
         }
@@ -63,7 +65,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
             } else {
                 // Use decodeFromString to capability with API 24 below.
                 // https://github.com/Kotlin/kotlinx.serialization/issues/2457#issuecomment-1786923342
-                val newsJsonString = File(TOPICS_ASSET).readText(StandardCharsets.UTF_8)
+                val newsJsonString = convertStreamToString(assets.open(NEWS_ASSET))
                 networkJson.decodeFromString(newsJsonString)
             }
         }
@@ -74,23 +76,23 @@ class DemoNiaNetworkDataSource @Inject constructor(
     override suspend fun getNewsResourceChangeList(after: Int?): List<NetworkChangeList> =
         getNewsResources().mapToChangeList(NetworkNewsResource::id)
 
-//    /**
-//     * Convert [InputStream] to [String].
-//     */
-//    private suspend fun convertStreamToString(inputStream: InputStream): String = withContext(
-//        coroutineContext,
-//    ) {
-//        val result = ByteArrayOutputStream()
-//        val buffer = ByteArray(1024)
-//        var length: Int
-//        while (true) {
-//            length = inputStream.read(buffer)
-//            if (length == -1) break
-//            result.write(buffer, 0, length)
-//        }
-//
-//        result.toString(StandardCharsets.UTF_8.name())
-//    }
+    /**
+     * Convert [InputStream] to [String].
+     */
+    private suspend fun convertStreamToString(inputStream: InputStream): String = withContext(
+        coroutineContext,
+    ) {
+        val result = ByteArrayOutputStream()
+        val buffer = ByteArray(1024)
+        var length: Int
+        while (true) {
+            length = inputStream.read(buffer)
+            if (length == -1) break
+            result.write(buffer, 0, length)
+        }
+
+        result.toString(StandardCharsets.UTF_8.name())
+    }
 
     companion object {
         private const val NEWS_ASSET = "news.json"
