@@ -32,6 +32,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.io.InputStream
 import javax.inject.Singleton
 
 @Module
