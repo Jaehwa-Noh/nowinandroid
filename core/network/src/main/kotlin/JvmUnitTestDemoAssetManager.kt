@@ -17,7 +17,6 @@
 import com.google.samples.apps.nowinandroid.core.network.demo.DemoAssetManager
 import java.io.File
 import java.io.InputStream
-import java.nio.charset.StandardCharsets
 import java.util.Properties
 
 /**
@@ -37,9 +36,6 @@ internal object JvmUnitTestDemoAssetManager : DemoAssetManager {
         }
     private val properties = Properties().apply { config.openStream().use(::load) }
     private val assets = File(properties["android_merged_assets"].toString())
-
-    fun readText(fileName: String): String = File(assets, fileName).readText(StandardCharsets.UTF_8)
     
     override fun open(fileName: String): InputStream = File(assets, fileName).inputStream()
-    
 }
