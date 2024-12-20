@@ -50,7 +50,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
             } else {
                 // Use decodeFromString to capability with API 24 below.
                 // https://github.com/Kotlin/kotlinx.serialization/issues/2457#issuecomment-1786923342
-                val topicsJsonString = assets.readText(TOPICS_ASSET)
+                val topicsJsonString = (assets as JvmUnitTestDemoAssetManager).readText(TOPICS_ASSET)
                 networkJson.decodeFromString(topicsJsonString)
             }
         }
@@ -63,7 +63,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
             } else {
                 // Use decodeFromString to capability with API 24 below.
                 // https://github.com/Kotlin/kotlinx.serialization/issues/2457#issuecomment-1786923342
-                val newsJsonString = assets.readText(NEWS_ASSET)
+                val newsJsonString = (assets as JvmUnitTestDemoAssetManager).readText(NEWS_ASSET)
                 networkJson.decodeFromString(newsJsonString)
             }
         }
