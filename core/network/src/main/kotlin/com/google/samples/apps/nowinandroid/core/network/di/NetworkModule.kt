@@ -48,7 +48,17 @@ internal object NetworkModule {
     @Singleton
     fun providesDemoAssetManager(
         @ApplicationContext context: Context,
-    ): DemoAssetManager = DemoAssetManager(context.assets::open)
+    ): DemoAssetManager {
+        return object : DemoAssetManager {
+            override fun open(fileName: String): InputStream =
+                context.assets.open(fileName)
+
+            override fun readText(fileName: String): String =
+                context.assets.open(fileName).bufferedReader().use {
+                    it.readText()
+                }
+        }
+    }
 
     @Provides
     @Singleton
