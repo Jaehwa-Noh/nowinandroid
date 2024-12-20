@@ -17,6 +17,7 @@
 import com.google.samples.apps.nowinandroid.core.network.demo.DemoAssetManager
 import java.io.File
 import java.io.InputStream
+import java.nio.charset.StandardCharsets
 import java.util.Properties
 
 /**
