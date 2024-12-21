@@ -58,7 +58,7 @@ class DemoNiaNetworkDataSource @Inject constructor(
      * Get Demo data form a [fileName] Json file.
      */
     @OptIn(ExperimentalSerializationApi::class)
-    private suspend fun <T> getDemoDataFromJson(fileName: String): List<T> =
+    private suspend inline fun <reified T> getDemoDataFromJson(fileName: String): List<T> =
         withContext(ioDispatcher) {
             assets.open(fileName).use { inputStream ->
                 if (SDK_INT >= N) networkJson.decodeFromStream(inputStream)
