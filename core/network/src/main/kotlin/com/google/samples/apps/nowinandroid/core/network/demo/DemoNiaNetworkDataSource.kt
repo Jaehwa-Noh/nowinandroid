@@ -17,7 +17,8 @@
 package com.google.samples.apps.nowinandroid.core.network.demo
 
 import JvmUnitTestDemoAssetManager
-import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.N
 import com.google.samples.apps.nowinandroid.core.network.Dispatcher
 import com.google.samples.apps.nowinandroid.core.network.NiaDispatchers.IO
 import com.google.samples.apps.nowinandroid.core.network.NiaNetworkDataSource
@@ -29,8 +30,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import java.io.File
-import java.nio.charset.StandardCharsets
+import java.io.BufferedReader
 import javax.inject.Inject
 
 /**
@@ -42,31 +42,11 @@ class DemoNiaNetworkDataSource @Inject constructor(
     private val assets: DemoAssetManager = JvmUnitTestDemoAssetManager,
 ) : NiaNetworkDataSource {
 
-    @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getTopics(ids: List<String>?): List<NetworkTopic> =
-        withContext(ioDispatcher) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                assets.open(TOPICS_ASSET).use(networkJson::decodeFromStream)
-            } else {
-                // Use decodeFromString to capability with API 24 below.
-                // https://github.com/Kotlin/kotlinx.serialization/issues/2457#issuecomment-1786923342
-                val topicsJsonString = assets.readText(TOPICS_ASSET)
-                networkJson.decodeFromString(topicsJsonString)
-            }
-        }
+        getDemoDataFromJson(TOPICS_ASSET)
 
-    @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getNewsResources(ids: List<String>?): List<NetworkNewsResource> =
-        withContext(ioDispatcher) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                assets.open(NEWS_ASSET).use(networkJson::decodeFromStream)
-            } else {
-                // Use decodeFromString to capability with API 24 below.
-                // https://github.com/Kotlin/kotlinx.serialization/issues/2457#issuecomment-1786923342
-                val newsJsonString = assets.readText(NEWS_ASSET)
-                networkJson.decodeFromString(newsJsonString)
-            }
-        }
+        getDemoDataFromJson(NEWS_ASSET)
 
     override suspend fun getTopicChangeList(after: Int?): List<NetworkChangeList> =
         getTopics().mapToChangeList(NetworkTopic::id)
@@ -74,23 +54,19 @@ class DemoNiaNetworkDataSource @Inject constructor(
     override suspend fun getNewsResourceChangeList(after: Int?): List<NetworkChangeList> =
         getNewsResources().mapToChangeList(NetworkNewsResource::id)
 
-//    /**
-//     * Convert [InputStream] to [String].
-//     */
-//    private suspend fun convertStreamToString(inputStream: InputStream): String = withContext(
-//        coroutineContext,
-//    ) {
-//        val result = ByteArrayOutputStream()
-//        val buffer = ByteArray(1024)
-//        var length: Int
-//        while (true) {
-//            length = inputStream.read(buffer)
-//            if (length == -1) break
-//            result.write(buffer, 0, length)
-//        }
-//
-//        result.toString(StandardCharsets.UTF_8.name())
-//    }
+    /**
+     * Get Demo data form a [fileName] Json file.
+     */
+    @OptIn(ExperimentalSerializationApi::class)
+    private suspend fun <T> getDemoDataFromJson(fileName: String): List<T> =
+        withContext(ioDispatcher) {
+            assets.open(fileName).use { inputStream ->
+                if (SDK_INT >= N) networkJson.decodeFromStream(inputStream)
+                // https://github.com/Kotlin/kotlinx.serialization/issues/2457#issuecomment-1786923342
+                else inputStream.bufferedReader().use(BufferedReader::readText)
+                    .let(networkJson::decodeFromString)
+            }
+        }
 
     companion object {
         private const val NEWS_ASSET = "news.json"
